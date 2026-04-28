@@ -21,7 +21,7 @@ const CreateSlotsModal = ({open, close}) => {
     }
 
     const validateSlots = (val) => {
-        if((/^\d+$/.test(val) || val === "") && Number(val) <=20){
+        if((/^\d+$/.test(val) || val === "") && Number(val) <=50){
             setNbrOfSlots(val !== "" ? Number(val) : "");
         }
     }
@@ -59,7 +59,7 @@ const CreateSlotsModal = ({open, close}) => {
                             </FormLabel>
                             <FormControl className="border border-black" type="text" placeholder="Number of Slots" value={nbrOfSlots} onChange={(e) => validateSlots(e.target.value)} required></FormControl>
                         </FormGroup>
-                        <p className="mt-2 ms-2"><span className="text-danger">* </span>When Slots are created existing slots and parking data will be deleted</p>
+                        <p className="mt-2 ms-2"><span className="text-danger">* </span>When Slots are created existing slots and parking data will be deleted. Maximum slots allowed is 50</p>
                         <div className="d-flex justify-content-end mt-2">
                             <Button className="btn btn-secondary" onClick={() => close()}>Cancel</Button>
                             <Button className="ms-3" onClick={() => createSlots()}>Create</Button>
