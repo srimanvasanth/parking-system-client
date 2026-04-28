@@ -10,6 +10,7 @@ const Login = () => {
     const [pwd, setPwd] = useState('');
     const [postMethod, postPopup, setPostPopup] = useCommonPost();
     const navigate = useNavigate();
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const callBack = (data) => {
         localStorage.setItem("currUser", data?.userName);
@@ -19,7 +20,7 @@ const Login = () => {
 
     const userLogin = async () => {
         await postMethod({
-            url: "http://localhost:3000/userLogin",
+            url: `${apiUrl}/userLogin`,
             data: {userName: uname, userPassword: pwd},
             sMsg: "Login Successful",
             fMsg: "Login Failed, Please Try Again",
