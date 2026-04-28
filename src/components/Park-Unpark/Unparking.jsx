@@ -75,10 +75,10 @@ const Unparking = () => {
             <div className='d-flex justify-content-center'>
                 <h2 className='text-center text-white mt-2'>{vehicleType === 2 ? "TWO WHEELER UNPARKING" : "FOUR WHEELER UNPARKING"}</h2>
             </div>
-            {trigger &&  
+            {trigger ?  
             <div className="d-flex justify-content-center align-items-center mt-5">
               <h1>No Vehicles are Currently Parked</h1>
-            </div> }
+            </div> :
             
             <div className="d-flex justify-content-center">
               <Container className="w-50 d-flex flex-column" style={{minHeight: "70vh"}}>
@@ -108,7 +108,7 @@ const Unparking = () => {
                   </Pagination>}
               
               </Container>
-            </div>
+            </div>}
 
             {openParking.open && <ParkUnparkModal
                 open={openParking.open}
