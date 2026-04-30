@@ -8,9 +8,9 @@ const Login = () => {
 
     const [uname, setUname] = useState('');
     const [pwd, setPwd] = useState('');
+    const [error, setError] = useState(false);
     const [postMethod, postPopup, setPostPopup] = useCommonPost();
     const navigate = useNavigate();
-    const apiUrl = import.meta.env.VITE_API_URL;
 
     const callBack = (data) => {
         localStorage.setItem("currUser", data?.userName);
@@ -19,13 +19,23 @@ const Login = () => {
     }
 
     const userLogin = async () => {
-        await postMethod({
-            url: `${apiUrl}/userLogin`,
-            data: {userName: uname, userPassword: pwd},
-            sMsg: "Login Successful",
-            fMsg: "Login Failed, Please Try Again",
-            callBack: callBack
-        })
+        if(uname === "" || pwd === ""){
+            setError(true);
+        } else {
+            await postMethod({
+                url: "http://localhost:3000/userLogin",
+                data: {userName: uname, userPassword: pwd},
+                sMsg: "Login Successful",
+                fMsg: "Login Failed, Please Try Again",
+                callBack: callBack
+            })
+        }
+    }
+
+    const handleChange = (value, field) => {
+        setError(false);
+        field === "uname" && setUname(value);
+        field === "pwd" && setPwd(value);
     }
 
     return (
@@ -36,15 +46,16 @@ const Login = () => {
                     <Form>
                         <h2 className="text-center pt-3">LOGIN</h2>
                         <FormGroup className="mt-3">
-                            <FormLabel className="fw-bold">Username</FormLabel>
-                            <FormControl type="text" value={uname} onChange={(e) => setUname(e.target.value)} placeholder="Username"></FormControl>
+                            <FormLabel className="fw-bold">Username</FormLabel><span className="text-danger"> * </span>
+                            <FormControl type="text" value={uname} onChange={(e) => handleChange(e.target.value, "uname")} placeholder="Username"></FormControl>
                         </FormGroup>
-                        <FormGroup className="mt-3">
-                            <FormLabel className="fw-bold">Password</FormLabel>
-                            <FormControl type="password" value={pwd} onChange={(e) => setPwd(e.target.value)} placeholder="Password"></FormControl>
+                        <FormGroup className="my-3">
+                            <FormLabel className="fw-bold">Password</FormLabel><span className="text-danger"> * </span>
+                            <FormControl type="password" value={pwd} onChange={(e) => handleChange(e.target.value, "pwd")} placeholder="Password"></FormControl>
                         </FormGroup>
+                        {error && <p className="text-center text-danger">Enter required(*) fields</p>}
                         <FormGroup>
-                            <Button className="col-12 my-4 fw-bold" onClick={() => userLogin()}>Login</Button>
+                            <Button className={`col-12 fw-bold ${error ? "mb-4" : "my-4"}`} onClick={() => userLogin()}>Login</Button>
                         </FormGroup>
                     </Form>
                 </div>
