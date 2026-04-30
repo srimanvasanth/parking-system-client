@@ -5,12 +5,12 @@ import SimplePopup from "../Popup/SimplePopup";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-
     const [uname, setUname] = useState('');
     const [pwd, setPwd] = useState('');
     const [error, setError] = useState(false);
     const [postMethod, postPopup, setPostPopup] = useCommonPost();
     const navigate = useNavigate();
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const callBack = (data) => {
         localStorage.setItem("currUser", data?.userName);
@@ -23,7 +23,7 @@ const Login = () => {
             setError(true);
         } else {
             await postMethod({
-                url: "http://localhost:3000/userLogin",
+                url: `${apiUrl}/userLogin`,
                 data: {userName: uname, userPassword: pwd},
                 sMsg: "Login Successful",
                 fMsg: "Login Failed, Please Try Again",
